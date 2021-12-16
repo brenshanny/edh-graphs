@@ -1,5 +1,5 @@
 import { types } from 'mobx-state-tree';
-import { each, reduce, groupBy, compact, keyBy } from 'lodash';
+import { countBy, keys, each, reduce, groupBy, compact, keyBy } from 'lodash';
 
 import Game from './Game';
 import Player from './Player'
@@ -10,7 +10,11 @@ const EdhGraphStore = types.model(
     players: types.array(types.late(() => Player)),
     games: types.array(Game),
     timeFrame: types.maybeNull(types.optional(types.number, 100)),
-    calculation: types.maybeNull(types.optional(types.string, "Wins")),
+    globalCalc: types.maybeNull(types.optional(types.string, "Wins by Player")),
+    playerCalc: types.maybeNull(types.optional(types.string, "Wins by Type")),
+    gamesCalc: types.maybeNull(types.optional(types.string, "Wins by Type")),
+    tab: types.maybeNull(types.optional(types.string, "global")),
+    selectedPlayer: types.maybeNull(types.reference(Player)),
   }
 ).volatile(() => ({
   rawData: null,
@@ -74,6 +78,9 @@ const EdhGraphStore = types.model(
 
       self.parseGame(game);
     });
+    if (self.players.length) {
+      self.set({ selectedPlayer: self.players[0].id });
+    }
   },
 })).views(self => ({
   get playersByName() {
@@ -97,6 +104,10 @@ const EdhGraphStore = types.model(
     return groupBy(self.gamesWithinTimeFrame, game => game.winner.player.id);
   },
 
+  get gamesWonByType() {
+    return countBy(self.gamesWithinTimeFrame, game => game.wincon ? game.wincon : "Untracked");
+  },
+
   get gamesPlayedByPlayer() {
     return reduce(self.gamesWithinTimeFrame, (res, game) => {
       game.players.forEach(pair => {
@@ -116,6 +127,19 @@ const EdhGraphStore = types.model(
       }
       return null;
     }));
+  },
+
+  get globalStatsData() {
+    const generalizedData = self.playersWithWins.map(player => ({
+      x: player.name, y: player.stats[self.globalCalc]
+    }))
+
+    return {
+      "Games Played by Player": generalizedData,
+      "Wins by Player": generalizedData,
+      "Win Percentage by Player": generalizedData,
+      "Wins by Type": keys(self.gamesWonByType).map(wincon => ({ x: wincon, y: self.gamesWonByType[wincon] })),
+    };
   },
 }));
 

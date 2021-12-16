@@ -1,5 +1,5 @@
 import { types, getRoot } from 'mobx-state-tree';
-import { uniqueId } from 'lodash';
+import { countBy, keys, uniqueId } from 'lodash';
 
 const Player = types.model(
   "Player",
@@ -29,13 +29,28 @@ const Player = types.model(
     return `${self.name} - ${self.gamesWon.length} - ${self.gamesPlayed.length} - ${self.winPercentage}`;
   },
 
+  get winsByType() {
+    return countBy(self.gamesWon, game => game.wincon ? game.wincon : "Untracked");
+  },
+
   get stats() {
     return {
-      "Win Percentage": parseInt(self.winPercentage, 10),
-      "Wins": self.gamesWon.length,
-      "Games Played": self.gamesPlayed.length,
-      "Win Percentage by Games Played": parseInt(self.winPercentageByGames, 10),
+      "Win Percentage by Player": parseInt(self.winPercentage, 10),
+      "Wins by Player": self.gamesWon.length,
+      "Games Played by Player": self.gamesPlayed.length,
     }
+  },
+
+  get playerStatsData() {
+    return {
+      "Wins by Type": keys(self.winsByType).map(wincon => ({
+        x: wincon, y: self.winsByType[wincon],
+      })),
+      "Win Percentage": [
+        { x: "Games Played", y: self.gamesPlayed.length },
+        { x: "Games Won", y: self.gamesWon.length },
+      ],
+    };
   },
 }));
 

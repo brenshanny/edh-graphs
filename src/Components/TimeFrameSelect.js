@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from "mobx-react";
 import Select from 'react-select';
 
-import { withStore } from "../services/store";
+import { withStore } from "../lib/contextHelpers";
 
 @withStore
 @observer
@@ -20,3 +20,5 @@ class TimeFrameSelect extends React.Component {
     );
   }
 }
+
+export default TimeFrameSelect;

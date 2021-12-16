@@ -8,7 +8,7 @@ import TimeFrameSelect from './TimeFrameSelect';
 
 @withStore
 @observer
-class GlobalStatsBoard extends React.Component {
+class GamesStatsBoard extends React.Component {
   renderChart = () => {
     const { store } = this.props
     if (!store.gamesWithinTimeFrame.length) {
@@ -22,7 +22,9 @@ class GlobalStatsBoard extends React.Component {
           sortKey={(datum) => datum.y}
           sortOrder="ascending"
           style={{ labels: { fill: "blue", fontSize: 8 } }}
-          data={store.globalStatsData[store.globalCalc]}
+          data={store.playersWithWins.map(player => ({
+            x: player.name, y: player.stats[store.calculation]
+          }))}
           labels={({ datum }) => `${datum.x} - ${datum.y}`}
         />
       </div>
@@ -31,7 +33,7 @@ class GlobalStatsBoard extends React.Component {
 
   render() {
     const { store } = this.props;
-    if (store.tab !== 'global') {
+    if (store.tab !== 'games') {
       return null;
     }
 
@@ -41,9 +43,9 @@ class GlobalStatsBoard extends React.Component {
           <TimeFrameSelect />
           <div className="calculationSelect">
             <Select
-              options={["Games Played by Player", "Wins by Player", "Win Percentage by Player", "Wins by Type"].map(opt => ({ value: opt, label: opt }))}
-              value={store.globalCalc ? { value: store.globalCalc, label: store.globalCalc } : null}
-              onChange={val => store.set({ globalCalc: val ? val.value : val })}
+              options={["Win Percentage by Games Played", "Games Played", "Wins", "Win Percentage"].map(opt => ({ value: opt, label: opt }))}
+              value={store.calculation ? { value: store.calculation, label: store.calculation } : null}
+              onChange={val => store.set({ calculation: val ? val.value : val })}
             />
           </div>
         </div>
@@ -53,4 +55,4 @@ class GlobalStatsBoard extends React.Component {
   }
 }
 
-export default GlobalStatsBoard;
+export default GamesStatsBoard;
