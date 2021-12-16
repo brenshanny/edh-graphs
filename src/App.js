@@ -1,7 +1,6 @@
 import React from 'react';
 import { readString } from 'react-papaparse';
 
-import './App.css';
 import EdhGraphsStore from './store/EdhGraphsStore';
 import EdhStatsApp from './Components/EdhStatsApp';
 import { StoreProvider } from './lib/contextHelpers';

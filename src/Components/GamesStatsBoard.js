@@ -15,6 +15,11 @@ class GamesStatsBoard extends React.Component {
       return null;
     }
 
+    // -------------------------------
+    // wins over time
+    // games played per month
+    // wins per commander
+
     return (
       <div style={{ height: '800px' }}>
         <VictoryBar

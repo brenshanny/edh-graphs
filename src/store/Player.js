@@ -33,6 +33,10 @@ const Player = types.model(
     return countBy(self.gamesWon, game => game.wincon ? game.wincon : "Untracked");
   },
 
+  get winsByCommander() {
+    return countBy(self.gamesWon, game => game.winner.commander);
+  },
+
   get stats() {
     return {
       "Win Percentage by Player": parseInt(self.winPercentage, 10),
@@ -45,6 +49,9 @@ const Player = types.model(
     return {
       "Wins by Type": keys(self.winsByType).map(wincon => ({
         x: wincon, y: self.winsByType[wincon],
+      })),
+      "Wins by Commander": keys(self.winsByCommander).map(commander => ({
+        x: commander, y: self.winsByCommander[commander],
       })),
       "Win Percentage": [
         { x: "Games Played", y: self.gamesPlayed.length },

@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import Select from 'react-select';
-import { VictoryPie, VictoryBar } from 'victory';
+import { VictoryLabel, VictoryPie, VictoryBar } from 'victory';
 
 import { withStore } from "../lib/contextHelpers";
 import TimeFrameSelect from './TimeFrameSelect';
@@ -13,6 +13,7 @@ class PlayersStatsBoard extends React.Component {
     return {
       "Wins by Type": VictoryBar,
       "Win Percentage": VictoryPie,
+      "Wins by Commander": VictoryBar,
     }
   }
 
@@ -33,6 +34,17 @@ class PlayersStatsBoard extends React.Component {
 
     const DesiredChart = this.chartMap[store.playerCalc];
 
+    const extraProps = {}
+
+    if (store.playerCalc === 'Wins by Commander') {
+      extraProps['labelComponent'] = (
+        <VictoryLabel
+          angle={-45}
+          textAnchor="start"
+        />
+      )
+    }
+
     return (
       <div style={{ height: '800px' }}>
         <DesiredChart
@@ -42,6 +54,7 @@ class PlayersStatsBoard extends React.Component {
           style={{ labels: { fill: "blue", fontSize: 8 } }}
           data={store.selectedPlayer.playerStatsData[store.playerCalc]}
           labels={({ datum }) => `${datum.x} - ${datum.y}`}
+          {...extraProps}
         />
       </div>
     );
@@ -57,16 +70,18 @@ class PlayersStatsBoard extends React.Component {
       <div className="players-stats-board">
         <div className="toolbar">
           <TimeFrameSelect />
-          <div className="playerSelect">
+          <div className="Select playerSelect">
+            <div className="Select-label">Player</div>
             <Select
               options={store.players.map(player => ({ value: player.id, label: player.name }))}
               value={store.selectedPlayer ? { value: store.selectedPlayer.id, label: store.selectedPlayer.name } : null}
               onChange={val => store.set({ selectedPlayer: val ? val.value : val })}
             />
           </div>
-          <div className="calculationSelect">
+          <div className="Select calculationSelect">
+            <div className="Select-label">Stat Type</div>
             <Select
-              options={["Wins by Type", "Win Percentage"].map(opt => ({ value: opt, label: opt }))}
+              options={["Wins by Type", "Wins by Commander", "Win Percentage"].map(opt => ({ value: opt, label: opt }))}
               value={store.playerCalc ? { value: store.playerCalc, label: store.playerCalc } : null}
               onChange={val => store.set({ playerCalc: val ? val.value : val })}
             />

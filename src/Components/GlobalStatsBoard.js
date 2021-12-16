@@ -39,7 +39,8 @@ class GlobalStatsBoard extends React.Component {
       <div className="global-stats-board">
         <div className="toolbar">
           <TimeFrameSelect />
-          <div className="calculationSelect">
+          <div className="Select calculationSelect">
+            <div className="Select-label">Stat Type</div>
             <Select
               options={["Games Played by Player", "Wins by Player", "Win Percentage by Player", "Wins by Type"].map(opt => ({ value: opt, label: opt }))}
               value={store.globalCalc ? { value: store.globalCalc, label: store.globalCalc } : null}
