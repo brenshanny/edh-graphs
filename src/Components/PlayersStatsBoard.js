@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import Select from 'react-select';
-import { VictoryLabel, VictoryPie, VictoryBar } from 'victory';
+import { VictoryChart, VictoryLine, VictoryLabel, VictoryPie, VictoryBar } from 'victory';
 
 import { withStore } from "../lib/contextHelpers";
 import TimeFrameSelect from './TimeFrameSelect';
@@ -34,10 +34,17 @@ class PlayersStatsBoard extends React.Component {
 
     const DesiredChart = this.chartMap[store.playerCalc];
 
-    const extraProps = {}
+    const defaultProps = {
+      colorScale: "qualitative",
+      sortKey: (datum) => datum.y,
+      sortOrder: "ascending",
+      style: { labels: { fill: "blue", fontSize: 8 } },
+      data: store.selectedPlayer.playerStatsData[store.playerCalc],
+      labels: ({ datum }) => `${datum.x} - ${datum.y}`,
+    }
 
     if (store.playerCalc === 'Wins by Commander') {
-      extraProps['labelComponent'] = (
+      defaultProps['labelComponent'] = (
         <VictoryLabel
           angle={-45}
           textAnchor="start"
@@ -45,16 +52,25 @@ class PlayersStatsBoard extends React.Component {
       )
     }
 
+    if (store.playerCalc === 'Wins over Time') {
+      return (
+        <div style={{ height: '800px' }}>
+          <VictoryChart
+            scale={{ x: "time", y: "linear" }}
+          >
+            <VictoryLine
+              {...defaultProps}
+              labels={() => ""}
+            />
+          </VictoryChart>
+        </div>
+      );
+    }
+
     return (
       <div style={{ height: '800px' }}>
         <DesiredChart
-          colorScale= "qualitative"
-          sortKey={(datum) => datum.y}
-          sortOrder="ascending"
-          style={{ labels: { fill: "blue", fontSize: 8 } }}
-          data={store.selectedPlayer.playerStatsData[store.playerCalc]}
-          labels={({ datum }) => `${datum.x} - ${datum.y}`}
-          {...extraProps}
+          {...defaultProps}
         />
       </div>
     );
@@ -81,7 +97,7 @@ class PlayersStatsBoard extends React.Component {
           <div className="Select calculationSelect">
             <div className="Select-label">Stat Type</div>
             <Select
-              options={["Wins by Type", "Wins by Commander", "Win Percentage"].map(opt => ({ value: opt, label: opt }))}
+              options={["Wins by Type", "Wins by Commander", "Wins over Time", "Win Percentage"].map(opt => ({ value: opt, label: opt }))}
               value={store.playerCalc ? { value: store.playerCalc, label: store.playerCalc } : null}
               onChange={val => store.set({ playerCalc: val ? val.value : val })}
             />

@@ -1,5 +1,5 @@
 import { types, getRoot } from 'mobx-state-tree';
-import { countBy, keys, uniqueId } from 'lodash';
+import { sortBy, reduce, countBy, keys, uniqueId } from 'lodash';
 
 const Player = types.model(
   "Player",
@@ -35,6 +35,22 @@ const Player = types.model(
 
   get winsByCommander() {
     return countBy(self.gamesWon, game => game.winner.commander);
+ },
+
+  get winsByDate() {
+    let lastKey = null;
+    return reduce(self.gamesWon, (acc, game) => {
+      const previousCount = acc[lastKey] || 0;
+      if (acc[game.date]) {
+        acc[game.date] += 1
+      } else {
+        acc[game.date] = previousCount + 1;
+      }
+
+      lastKey = game.date;
+
+      return acc;
+    }, {});
   },
 
   get stats() {
@@ -57,7 +73,29 @@ const Player = types.model(
         { x: "Games Played", y: self.gamesPlayed.length },
         { x: "Games Won", y: self.gamesWon.length },
       ],
+      "Wins over Time": sortBy(keys(self.winsByDate), date => new Date(date)).map(key => ({
+        x: new Date(key), y: self.winsByDate[key],
+      })),
     };
+  },
+
+  get color() {
+    const colorMap = {
+      "Brendan": "orange",
+      "Reese": "green",
+      "Alex": "yellow",
+      "John": "purple",
+      "Greg": "blue",
+      "Phil": "red",
+      "Andrew": "pink",
+      "Nolan": "magenta",
+    }
+
+    if (colorMap[self.name]) {
+      return colorMap[self.name];
+    }
+
+    return 'black';
   },
 }));
 

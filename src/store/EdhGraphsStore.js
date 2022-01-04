@@ -139,6 +139,7 @@ const EdhGraphStore = types.model(
       "Wins by Player": generalizedData,
       "Win Percentage by Player": generalizedData,
       "Wins by Type": keys(self.gamesWonByType).map(wincon => ({ x: wincon, y: self.gamesWonByType[wincon] })),
+      "Wins over Time by Player": self.players.map(player => player.playerStatsData['Wins over Time']),
     };
   },
 }));

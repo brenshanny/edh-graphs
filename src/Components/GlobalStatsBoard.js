@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import Select from 'react-select';
-import { VictoryBar } from 'victory';
+import { VictoryLegend, VictoryChart, VictoryLine, VictoryBar } from 'victory';
 
 import { withStore } from "../lib/contextHelpers";
 import TimeFrameSelect from './TimeFrameSelect';
@@ -13,6 +13,33 @@ class GlobalStatsBoard extends React.Component {
     const { store } = this.props
     if (!store.gamesWithinTimeFrame.length) {
       return null;
+    }
+
+    if (store.globalCalc === 'Wins over Time by Player') {
+      return (
+        <VictoryChart
+          scale={{ x: 'time', y: 'linear' }}
+        >
+          <VictoryLegend
+            x={125}
+            y={0}
+            itemsPerRow={4}
+            orientation="horizontal"
+            gutter={20}
+            style={{ border: { stroke: "black" } }}
+            data={store.playersWithWins.map(player => ({ name: player.name, symbol: { fill: player.color } }))}
+          />
+          {store.players.map(player => {
+            return (
+              <VictoryLine
+                key={player.id}
+                style={{ data: { stroke: player.color } }}
+                data={player.playerStatsData["Wins over Time"]}
+              />
+            );
+          })}
+        </VictoryChart>
+      );
     }
 
     return (
@@ -42,7 +69,7 @@ class GlobalStatsBoard extends React.Component {
           <div className="Select calculationSelect">
             <div className="Select-label">Stat Type</div>
             <Select
-              options={["Games Played by Player", "Wins by Player", "Win Percentage by Player", "Wins by Type"].map(opt => ({ value: opt, label: opt }))}
+              options={["Games Played by Player", "Wins by Player", "Win Percentage by Player", "Wins by Type", "Wins over Time by Player"].map(opt => ({ value: opt, label: opt }))}
               value={store.globalCalc ? { value: store.globalCalc, label: store.globalCalc } : null}
               onChange={val => store.set({ globalCalc: val ? val.value : val })}
             />
