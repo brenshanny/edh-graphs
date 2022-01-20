@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/edh-graphs/static/css/main.fd41a6c3.css",
-    "main.js": "/edh-graphs/static/js/main.a5c3cb1e.js",
+    "main.css": "/edh-graphs/static/css/main.b480de72.css",
+    "main.js": "/edh-graphs/static/js/main.8e70bc30.js",
     "static/js/787.f26f6b44.chunk.js": "/edh-graphs/static/js/787.f26f6b44.chunk.js",
     "static/media/stats.csv": "/edh-graphs/static/media/stats.dc9dad79c2c76fe9c671.csv",
     "index.html": "/edh-graphs/index.html",
-    "main.fd41a6c3.css.map": "/edh-graphs/static/css/main.fd41a6c3.css.map",
-    "main.a5c3cb1e.js.map": "/edh-graphs/static/js/main.a5c3cb1e.js.map",
+    "main.b480de72.css.map": "/edh-graphs/static/css/main.b480de72.css.map",
+    "main.8e70bc30.js.map": "/edh-graphs/static/js/main.8e70bc30.js.map",
     "787.f26f6b44.chunk.js.map": "/edh-graphs/static/js/787.f26f6b44.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.fd41a6c3.css",
-    "static/js/main.a5c3cb1e.js"
+    "static/css/main.b480de72.css",
+    "static/js/main.8e70bc30.js"
   ]
 }
