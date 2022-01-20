@@ -20,12 +20,14 @@ const papaConfig = {
     console.log('Error while parsing:', error, file);
   },
 };
+
 readString(stats, papaConfig);
 
 
 function App() {
   return (
     <StoreProvider store={store}>
+      <div className="dumb-test-for-rebuilding-8"></div>
       <EdhStatsApp />
     </StoreProvider>
   );

@@ -66,3 +66,19 @@
     transform: rotate(360deg);
   }
 }
+
+.header-title {
+  float: left;
+  width: 210px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+	color: #fff;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+	margin-right: 50px;
+}
+
+.site-layout-background {
+  background: #fff;
+}
