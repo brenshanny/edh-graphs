@@ -27,7 +27,7 @@ readString(stats, papaConfig);
 function App() {
   return (
     <StoreProvider store={store}>
-      <div className="dumb-test-for-rebuilding-8"></div>
+      <div className="dumb-test-for-rebuilding-16"></div>
       <EdhStatsApp />
     </StoreProvider>
   );

@@ -70,7 +70,7 @@ const Player = types.model(
         x: commander, y: self.winsByCommander[commander],
       })),
       "Win Percentage": [
-        { x: "Games Played", y: self.gamesPlayed.length },
+        { x: "Games Lost", y: self.gamesPlayed.length - self.gamesWon.length },
         { x: "Games Won", y: self.gamesWon.length },
       ],
       "Wins over Time": sortBy(keys(self.winsByDate), date => new Date(date)).map(key => ({

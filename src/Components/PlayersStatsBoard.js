@@ -27,6 +27,10 @@ class PlayersStatsBoard extends React.Component {
       return null;
     }
 
+    if (!store.selectedPlayer.gamesWon.length) {
+      return null;
+    }
+
     // -------------------------------
     // wins over time
     // wins per month

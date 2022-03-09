@@ -2,6 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import Select from 'react-select';
 import { VictoryLegend, VictoryChart, VictoryLine, VictoryBar } from 'victory';
+import { Card } from 'antd';
 
 import { withStore } from "../lib/contextHelpers";
 import TimeFrameSelect from './TimeFrameSelect';
@@ -15,18 +16,24 @@ class GlobalStatsBoard extends React.Component {
       return null;
     }
 
+    let gameCount = store.gamesWithinTimeFrame.length;
+    if (gameCount !== 10) {
+      gameCount = gameCount / 2;
+    }
+
     if (store.globalCalc === 'Wins over Time by Player') {
       return (
         <VictoryChart
           scale={{ x: 'time', y: 'linear' }}
+          domain={{ y: [0, gameCount] }}
         >
           <VictoryLegend
-            x={125}
-            y={0}
+            x={60}
+            standalone={false}
             itemsPerRow={4}
             orientation="horizontal"
             gutter={20}
-            style={{ border: { stroke: "black" } }}
+            style={{ border: { stroke: "black" }, title: { fontSize: 10 }  }}
             data={store.playersWithWins.map(player => ({ name: player.name, symbol: { fill: player.color } }))}
           />
           {store.players.map(player => {
