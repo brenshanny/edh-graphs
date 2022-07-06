@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/edh-graphs/static/css/main.b480de72.css",
-    "main.js": "/edh-graphs/static/js/main.80dde6b6.js",
+    "main.js": "/edh-graphs/static/js/main.7cbe5a4a.js",
     "static/js/787.f26f6b44.chunk.js": "/edh-graphs/static/js/787.f26f6b44.chunk.js",
-    "static/media/stats.csv": "/edh-graphs/static/media/stats.60fb09f0a008f630af3c.csv",
+    "static/media/stats.csv": "/edh-graphs/static/media/stats.981e716ce6194962f0b8.csv",
     "index.html": "/edh-graphs/index.html",
     "main.b480de72.css.map": "/edh-graphs/static/css/main.b480de72.css.map",
-    "main.80dde6b6.js.map": "/edh-graphs/static/js/main.80dde6b6.js.map",
+    "main.7cbe5a4a.js.map": "/edh-graphs/static/js/main.7cbe5a4a.js.map",
     "787.f26f6b44.chunk.js.map": "/edh-graphs/static/js/787.f26f6b44.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b480de72.css",
-    "static/js/main.80dde6b6.js"
+    "static/js/main.7cbe5a4a.js"
   ]
 }
